@@ -1,6 +1,8 @@
 <template>
     <div>
         <el-form>
+            <el-form-item :label="'Second: ' + currentSecond">
+            </el-form-item>
             <el-form-item label="ATRs">
                 <el-button type="primary" @click="ATRs.push(ATRData())">Add</el-button>
             </el-form-item>
@@ -19,10 +21,12 @@
     </div>
 </template>
 <script>
+    import moment from 'moment';
     export default {
         data() {
             return {
                 ATRs: [this.ATRData()],
+                currentSecond: '',
             }
         },
         methods: {
@@ -43,8 +47,14 @@
 
                 return (atr / price * 100).toFixed(2) + ' %';
             },
+            syncSecond() {
+                setInterval(() => {
+                    this.currentSecond = moment().format("ss");
+                }, 1000);
+            }
         },
         created() {
+            this.syncSecond();
         }
     }
 </script>
