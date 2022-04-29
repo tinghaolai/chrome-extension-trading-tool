@@ -10,7 +10,7 @@
         "scripting"
     ],
     "host_permissions": [
-        "https://cloud.nueip.com/*"
+        "https://*/*"
     ],
     "icons": {
         "16": "images/extension-icon.PNG",
