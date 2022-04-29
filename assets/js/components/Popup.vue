@@ -77,6 +77,8 @@
                                 element.style.position = 'fixed';
                                 element.style.top = originTop + 'px';
                                 element.style.left = originLeft + 'px';
+                                element.style.padding = '20px';
+                                element.style.backgroundColor = 'white';
 
                                 var mouseX;
                                 var mouseY;
