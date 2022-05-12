@@ -1,6 +1,13 @@
 <template>
     <div>
         <el-form>
+            <el-form-item label="Reverse exchange rate">
+                <el-input v-model="reverseRate">Rate</el-input>
+            </el-form-item>
+            <el-form-item label="Reversed rate">
+                <div v-if="reverseRate">{{ (1 / reverseRate).toFixed(2) + ' %' }}</div>
+                <div v-else>-</div>
+            </el-form-item>
             <el-form-item :label="'Second: ' + currentSecond">
                 <el-button type="Success" @click="currentTabShowSecond">To current tab</el-button>
             </el-form-item>
@@ -26,6 +33,7 @@
     export default {
         data() {
             return {
+                reverseRate: null,
                 ATRs: [this.ATRData()],
                 currentSecond: '',
             }
