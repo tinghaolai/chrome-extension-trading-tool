@@ -70,9 +70,74 @@ chrome.webNavigation.onCompleted.addListener(
                     }
                 }
 
+                function getTradingView() {
+                    let iframe  = document.querySelectorAll('[id^=tradingview]')[0];
+                    if (!iframe) {
+                        return false;
+                    }
+
+                    tradingView = (iframe.contentDocument) ? iframe.contentDocument : iframe.contentWindow.document;
+
+                    return true;
+                }
+
+                function getATRPercentage(atr, price) {
+                    if (!atr || !price) {
+                        return '-';
+                    }
+
+                    atr = parseFloat(atr);
+                    price = parseFloat(price);
+
+                    return (atr / price * 100).toFixed(2) + ' %';
+                }
+
+                function createATR() {
+                    setTimeout(() => {
+                        let display = document.createElement('div');
+                        display.width = '50px';
+                        display.height = '50px';
+                        display.id = 'chrome-extension-trading-tool-foreground-display-atr';
+                        display.style.zIndex  = 999999999999999;
+                        let divs = tradingView.querySelectorAll('div[data-name="legend-source-title"]');
+                        let contractPrice = document.getElementsByClassName('contractPrice')[0];
+                        let targetDiv;
+                        divs.forEach(div => {
+                            if (div.innerText === 'ATR') {
+                                targetDiv = div.parentNode.parentNode.parentNode.querySelectorAll('div[class^="valueValue"]')[0];
+                            }
+                        });
+
+                        display.innerHTML = '<span style="pointer-events: none; user-select: none;">' +
+                            'current atr / price : ' + getATRPercentage(targetDiv.innerText, contractPrice.innerText) +
+                        '</span>';
+
+                        setInterval(() => {
+                            display.innerHTML = '<span style="pointer-events: none; user-select: none;">' +
+                                'current atr / price : ' + getATRPercentage(targetDiv.innerText, contractPrice.innerText) +
+                            '</span>';
+                        }, 5000);
+
+                        draggable(display, 90, 40);
+                        document.querySelector('body').appendChild(display);
+                    }, 2000);
+                }
+
+                function alertUser(message = 'system error') {
+                    alert(message);
+                }
+
+                let tradingView;
                 let checkElement = document.getElementById('chrome-extension-trading-tool-foreground-display');
                 if (!checkElement) {
                     createDraggableATR();
+                }
+
+                if (getTradingView()) {
+                    let checkElement = document.getElementById('chrome-extension-trading-tool-foreground-display-atr');
+                    if (!checkElement) {
+                        createATR();
+                    }
                 }
             },
         }, (results) => {
