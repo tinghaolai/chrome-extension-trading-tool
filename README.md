@@ -27,3 +27,10 @@ Auto create a timer that show current seconds in a draggable tab.
 ### ATR / price percentage
 
 Calculate current ATR / percentage in a draggable tab every 5 seconds, have to use ATR indicator to make this works, if put the cursor to past ATR plot, it will calculate the past ATR percentage but not including past price.
+
+### Paste Bar High / Low
+
+Paste current or history high / low price to limit input, move cursor to bar if want to paste from history bar.
+
+* Paste High - Press 「a」
+* Paste Low  - Press 「s」
