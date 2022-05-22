@@ -73,7 +73,7 @@
                             display.style.zIndex  = 999999999999999;
 
                             setInterval(() => {
-                                display.innerText = 'current second: ' + (new Date()).getSeconds();
+                                display.innerHTML = '<span style="pointer-events: none; user-select: none;">current second: ' + (new Date()).getSeconds() + '</span>';
                             }, 1000);
 
                             draggable(display, 10, 0);
