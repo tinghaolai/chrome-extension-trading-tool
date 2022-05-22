@@ -86,6 +86,14 @@ chrome.webNavigation.onCompleted.addListener(
                         return '-';
                     }
 
+                    if (typeof atr === 'string') {
+                        atr = atr.replace(',', '');
+                    }
+
+                    if (typeof price === 'string') {
+                        price = price.replace(',', '');
+                    }
+
                     atr = parseFloat(atr);
                     price = parseFloat(price);
 
