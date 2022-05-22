@@ -76,7 +76,7 @@
                                 display.innerHTML = '<span style="pointer-events: none; user-select: none;">current second: ' + (new Date()).getSeconds() + '</span>';
                             }, 1000);
 
-                            draggable(display, 10, 0);
+                            draggable(display, 90, 20);
                             function draggable(element, topPercentage, leftPercentage) {
                                 let originTop = window.innerHeight * topPercentage / 100;
                                 let originLeft = window.innerHeight * leftPercentage / 100;
