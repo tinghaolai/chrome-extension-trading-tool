@@ -1,0 +1,74 @@
+function getDomain(url) {
+    return url.replace('http://','').replace('https://','').split(/[/?#]/)[0];
+}
+
+let targetDomain = getDomain('https://www.binance.com/zh-TW');
+
+chrome.webNavigation.onCompleted.addListener(
+    (tab) => {
+        if (targetDomain !== getDomain(tab.url) ) {
+            return;
+        }
+
+        chrome.scripting.executeScript({
+            target: { tabId: tab.tabId },
+            func: () => {
+                let display = document.createElement('div');
+                display.width = '50px';
+                display.height = '50px';
+                display.id = 'chrome-extension-trading-tool-foreground-display';
+                display.style.zIndex  = 999999999999999;
+
+                setInterval(() => {
+                    display.innerHTML = '<span style="pointer-events: none; user-select: none;">current second: ' + (new Date()).getSeconds() + '</span>';
+                }, 1000);
+
+                draggable(display, 90, 20);
+                function draggable(element, topPercentage, leftPercentage) {
+                    let originTop = window.innerHeight * topPercentage / 100;
+                    let originLeft = window.innerHeight * leftPercentage / 100;
+                    let isMouseDown = false;
+
+                    element.style.position = 'fixed';
+                    element.style.top = originTop + 'px';
+                    element.style.left = originLeft + 'px';
+                    element.style.padding = '20px';
+                    element.style.backgroundColor = 'white';
+
+                    var mouseX;
+                    var mouseY;
+                    var elementX = originLeft;
+                    var elementY = originTop;
+
+                    element.addEventListener('mousedown', onMouseDown);
+                    function onMouseDown(event) {
+                        mouseX = event.clientX;
+                        mouseY = event.clientY;
+                        isMouseDown = true;
+                    }
+
+                    element.addEventListener('mouseup', onMouseUp);
+
+                    function onMouseUp(event) {
+                        isMouseDown = false;
+                        elementX = parseInt(element.style.left) || 0;
+                        elementY = parseInt(element.style.top) || 0;
+                    }
+
+                    document.addEventListener('mousemove', onMouseMove);
+
+                    function onMouseMove(event) {
+                        if (!isMouseDown) return;
+                        var deltaX = event.clientX - mouseX;
+                        var deltaY = event.clientY - mouseY;
+                        element.style.left = elementX + deltaX + 'px';
+                        element.style.top = elementY + deltaY + 'px';
+                    }
+                }
+
+                document.querySelector('body').appendChild(display);
+            },
+        }, (results) => {
+        });
+    }
+);
