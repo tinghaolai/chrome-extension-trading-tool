@@ -131,6 +131,46 @@ chrome.webNavigation.onCompleted.addListener(
                     }, 2000);
                 }
 
+                function createPriceSync() {
+                    tradingView.onkeydown = (event) => {
+                        switch (event.key) {
+                            case 'a':
+                                syncCurrentBarToTradeInput('high');
+                                break;
+                            case 's':
+                                syncCurrentBarToTradeInput('low');
+                                break;
+                        }
+                    }
+                }
+
+                function syncCurrentBarToTradeInput(type) {
+                    let searchText;
+                    switch (type) {
+                        case 'high':
+                            searchText = '高=';
+                            break;
+                        case 'low':
+                            searchText = '低=';
+                            break;
+                        default:
+                            return;
+                    }
+
+                    let divs = tradingView.querySelectorAll('div[class^="valueTitle"]');
+                    let targetDiv;
+                    divs.forEach(div => {
+                        if (div.innerText === searchText) {
+                            targetDiv = div.parentNode.querySelectorAll('div[class^="valueValue"]')[0];
+                        }
+                    });
+
+                    let input = document.querySelectorAll('input[id^="limitPrice"]')[0];
+                    if (input) {
+                        input.value = targetDiv.innerText;
+                    }
+                }
+
                 function alertUser(message = 'system error') {
                     alert(message);
                 }
@@ -145,6 +185,10 @@ chrome.webNavigation.onCompleted.addListener(
                     let checkElement = document.getElementById('chrome-extension-trading-tool-foreground-display-atr');
                     if (!checkElement) {
                         createATR();
+                    }
+
+                    if(!document.getElementById('chrome-extension-trading-tool-foreground-display-price-sync')) {
+                        createPriceSync();
                     }
                 }
             },

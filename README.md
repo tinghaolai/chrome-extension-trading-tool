@@ -17,10 +17,6 @@
     * prevent duplicate record becuz multiple window
         * Add switch to determine if recording
         * Regard current page coin as trading coin for the recording
-* Copy high / low to price trading input
-    * Keyboard short cut or button perhaps better
-    * Find from cursor current bar info
-
 
 ## Features
 
