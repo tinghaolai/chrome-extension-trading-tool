@@ -13,17 +13,21 @@ chrome.webNavigation.onCompleted.addListener(
         chrome.scripting.executeScript({
             target: { tabId: tab.tabId },
             func: () => {
-                let display = document.createElement('div');
-                display.width = '50px';
-                display.height = '50px';
-                display.id = 'chrome-extension-trading-tool-foreground-display';
-                display.style.zIndex  = 999999999999999;
+                function createDraggableATR() {
+                    let display = document.createElement('div');
+                    display.width = '50px';
+                    display.height = '50px';
+                    display.id = 'chrome-extension-trading-tool-foreground-display';
+                    display.style.zIndex  = 999999999999999;
 
-                setInterval(() => {
-                    display.innerHTML = '<span style="pointer-events: none; user-select: none;">current second: ' + (new Date()).getSeconds() + '</span>';
-                }, 1000);
+                    setInterval(() => {
+                        display.innerHTML = '<span style="pointer-events: none; user-select: none;">current second: ' + (new Date()).getSeconds() + '</span>';
+                    }, 1000);
 
-                draggable(display, 90, 20);
+                    draggable(display, 90, 20);
+                    document.querySelector('body').appendChild(display);
+                }
+
                 function draggable(element, topPercentage, leftPercentage) {
                     let originTop = window.innerHeight * topPercentage / 100;
                     let originLeft = window.innerHeight * leftPercentage / 100;
@@ -66,7 +70,10 @@ chrome.webNavigation.onCompleted.addListener(
                     }
                 }
 
-                document.querySelector('body').appendChild(display);
+                let checkElement = document.getElementById('chrome-extension-trading-tool-foreground-display');
+                if (!checkElement) {
+                    createDraggableATR();
+                }
             },
         }, (results) => {
         });
