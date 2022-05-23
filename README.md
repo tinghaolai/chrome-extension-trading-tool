@@ -3,6 +3,10 @@
 * Auto record profit / loss
     * Store online
         * perhaps google drive api
+        * Self maintain server to store in database
+            * Laravel
+            * Gin
+                * Gin perhaps
     * Calculate by free margin change
     * Calculate when doing trade operate
         * Delete dom value change due to trade operate is not immediately.
