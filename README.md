@@ -21,6 +21,13 @@
     * prevent duplicate record becuz multiple window
         * Add switch to determine if recording
         * Regard current page coin as trading coin for the recording
+* Fast assign cursor price to input
+    * Can't get the content of canvas
+    * Possible solutions
+        * Wait for trading view to implement
+        * Find and modify canvas script
+        * Using deep learning convert price image base on cursor position to fetch image from js
+            * Possible but too slow
 
 ## Features
 
