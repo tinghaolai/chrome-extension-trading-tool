@@ -72,6 +72,7 @@ chrome.webNavigation.onCompleted.addListener(
 
                 function getTradingView() {
                     let iframe  = document.querySelectorAll('[id^=tradingview]')[0];
+                    // console.log(iframe.contentWindow.document.querySelectorAll('canvas'));
                     if (!iframe) {
                         return false;
                     }
